@@ -1,0 +1,6 @@
+@FlashCardDotNet_HostAddress = http://localhost:5172
+
+GET {{FlashCardDotNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
