@@ -21,6 +21,6 @@ where name = suser_name()
 Create database tables from C# models
 ```
 add-migration "CardMigrate" // the model name
-update database
+update-database
 ```
 build the migration code to generate controller with selected model and dbcontext using entity framework

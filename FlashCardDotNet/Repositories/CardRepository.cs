@@ -6,24 +6,24 @@ namespace FlashCardDotNet.Repositories
 {
     public class CardRepository : CardRepositoryInterface
     {
-        private readonly CardRepositoryContext context;
-        public CardRepository(CardRepositoryContext context) { 
+        private readonly CardContext context;
+        public CardRepository(CardContext context) { 
             this.context = context;
         }
         public async Task<Card> AddCard(Card card)
         {
             card.cardId = Guid.NewGuid();
-            context.Cards.Add(card);
+            context.FlashCards.Add(card);
             await context.SaveChangesAsync();
             return card;
         }
 
         public async Task<Card> DeleteCardById(Guid id)
         {
-            Card card = await context.Cards.FindAsync(id);
+            Card card = await context.FlashCards.FindAsync(id);
             if(card != null)
             {
-                context.Cards.Remove(card);
+                context.FlashCards.Remove(card);
                 await context.SaveChangesAsync();
             }
             return card;
@@ -38,12 +38,12 @@ namespace FlashCardDotNet.Repositories
 
         public async Task<IEnumerable<Card>> GetAllCards()
         {
-            return await context.Cards.ToListAsync();
+            return await context.FlashCards.ToListAsync();
         }
 
         public async Task<Card> GetCardById(Guid id)
         {
-            return await context.Cards.FindAsync(id);
+            return await context.FlashCards.FindAsync(id);
         }
     }
 }

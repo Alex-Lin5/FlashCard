@@ -1,5 +1,6 @@
 ﻿using FlashCardDotNet.Entities;
 using FlashCardDotNet.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,8 +16,15 @@ namespace FlashCardDotNet.Controllers
             this.cardService = cardService;
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Card>> AddCard(Card card)
         {
+            User user;
+            if (true)
+            {
+                //var issuer = builder.Configuration["Jwt:Issuer"];
+
+            }
             Card cardAdd = await cardService.AddACard(card);
             return Ok(cardAdd);
         }
