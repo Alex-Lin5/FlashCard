@@ -1,0 +1,36 @@
+#stage 1: Compile and build the angular codebase
+ 
+#use official node image as base image
+ 
+FROM node:latest as build
+ 
+#Set the working directory
+ 
+WORKDIR /usr/local/app
+ 
+#Add source code to app
+ 
+COPY ./ /usr/local/app
+ 
+#install the dependencies
+ 
+RUN npm install
+ 
+# generate the build of the application
+ 
+RUN npm run build
+ 
+ 
+ 
+#stage 2: serve the app with nginx server
+ 
+# use official nginx server image as base
+FROM nginx:latest
+ 
+#copy the build output to replace the content nginx server content
+ 
+COPY --from=build /usr/local/app/dist/dockerapp /usr/share/nginx/html
+ 
+#expose port
+ 
+EXPOSE 80

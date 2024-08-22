@@ -18,6 +18,7 @@ builder.Services.AddTransient<CardControllerInterface, CardController>();
 builder.Services.AddTransient<CardServiceInterface, CardService>();
 builder.Services.AddTransient<CardRepositoryInterface, CardRepository>();
 
+builder.Services.AddCors();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,6 +56,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(o => o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 //app.MapGet("/jwt", () => "jwt auth.").RequireAuthorization();
 
 app.UseAuthentication();

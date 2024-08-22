@@ -1,7 +1,80 @@
-<h1>Flash Cards</h1>
 
-<button>Card/Table Toggle</button>
-<button>Add Flash Card</button>
-<div id="tableView">Question Answer Option(edit, delete)</div>
-<div id="cardView">Question show answer</div>
+<a routerLink="/">
+    <h1>Flashcards</h1>
+</a>
 
+<button type="button" (click)="switchView()">Card/Table Toggle</button>
+<button type="button" (click)="getAddForm()">Add Flashcard</button>
+@if(adding){
+    <form formGroup="formAdd">
+        <input type="text" id="question" size="10" formControlName="question" placeholder="add question">
+        <input type="text" id="question" size="10" formControlName="answer" placeholder="add answer">
+        <input type="text" id="question" size="4" formControlName="status" placeholder="add status">
+        <button (click)="addCard()">Create</button>
+        <button (click)="cancel()">Cancel</button>
+    </form>
+}
+@if(editing){
+    <form formGroup="formAdd">
+        <input type="text" id="question" size="10" formControlName="question">
+        <input type="text" id="question" size="10" formControlName="answer">
+        <input type="text" id="question" size="4" formControlName="status">
+        <button (click)="editCard()">Accept</button>
+        <button (click)="cancel()">Cancel</button>
+    </form>
+}            
+
+@if(view == 'table'){
+<table id="tableView">
+    <thead>
+        <tr>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Status</th>
+            <th colspan="2">Modify</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(c of cards; track c){
+            @if(cardEdit != c){
+                <tr>
+                    <!-- <td>{{c.cardId}}</td> -->
+                    <td>{{c.question}}</td>
+                    <td>{{c.answer}}</td>
+                    <td>{{c.status}}</td>
+                    <td><button (click)="getEditForm(c)">Edit</button></td>
+                    @if(deleting){
+                        <td>delete card? </td>
+                        <td><button (click)="deleteCard(c)">Delete</button></td>        
+                        <td><button (click)="cancel()">Cancel</button></td>        
+                    } @else{
+                        <td><button (click)="confirmDelete(c)">Delete</button></td>        
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+}
+
+@if(view == 'card'){
+    <div id="cardView" >
+    @for(c of cards; track c){
+        @if(cardEdit != c){
+            <div>question: {{c.question}}</div>
+            <div>answer: {{c.answer}}</div>
+            <div>status: {{c.status}}</div>
+            <div>Modify: </div>
+            <div><button (click)="getEditForm(c)">Edit</button></div>
+            @if(deleting){
+                <div>Delete card?</div>
+                <div><button (click)="deleteCard(c)">Delete</button></div>
+                <div><button (click)="cancel()">Cancel</button></div>
+            } @else{
+                <div><button (click)="confirmDelete(c)">Delete</button></div>
+            }
+        }
+    }
+    </div>
+}

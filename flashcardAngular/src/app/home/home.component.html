@@ -1,19 +1,25 @@
-<h1>FlashcardAPI</h1>
-<a>http://localhost:4200</a>
 
-<h2>Flashcards</h2>
+<!-- <a routerLink="/">
+<h1>FlashcardAPI</h1>
+</a> -->
+
+<a routerLink="/cards" routerLinkActive="false">
+<h2>Flashcards APIs</h2>
+</a>
+<ul>
 <li>
-    GET /api/Flashcards
+    GET /card
 </li>
 <li>
-    POST /api/Flashcards
+    POST /card
 </li>
 <li>
-    GET /api/Flashcards/{id}
+    GET /card/id/{{'{id}'}}
 </li>
 <li>
-    PUT /api/Flashcards/{id}
+    PUT /card
 </li>
 <li>
-    DELETE /api/Flashcards/{id}
+    DELETE /card/id/{{'{id}'}}
 </li>
+</ul>
