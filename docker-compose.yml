@@ -1,0 +1,26 @@
+version: '3'
+services:
+  # /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P 'Root!234' -C -i /setup/dbSetup.sql
+  # /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P $MSSQL_SA_PASSWORD -C -i /setup/dbConnectionStr.sql
+  sql-server:    
+    container_name: sql-server-2022
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Root!234
+    volumes:
+      - ./sqlVolumn:/var/opt/mssql
+      - ./dbSetup.sql:/setup/dbSetup.sql
+      - ./dbConnectionStr.sql:/setup/dbConnectionStr.sql
+  dotnet8:
+    container_name: asp-dotnet
+    restart: on-failure
+    build: 
+      context: ./FlashCardDotNet
+      dockerfile: Dockerfile
+    ports:
+      - 8085:8080
+      - 8086:8081
+    # network_mode: host
