@@ -25,15 +25,23 @@ namespace FlashCardDotNet.Repositories
             {
                 context.FlashCards.Remove(card);
                 await context.SaveChangesAsync();
+                return card;
             }
-            return card;
+            return new Card();
         }
 
         public async Task<Card> EditCard(Card card)
         {
-            context.Entry(card).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            await context.SaveChangesAsync();
-            return card;
+            Card cardFound = await context.FlashCards.FindAsync(card.cardId);
+            if (cardFound != null)
+            {
+                cardFound.question = card.question;
+                cardFound.answer = card.answer;
+                cardFound.status = card.status;
+                await context.SaveChangesAsync();
+                return card;
+            }
+            return new Card();
         }
 
         public async Task<IEnumerable<Card>> GetAllCards()
